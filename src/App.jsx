@@ -5,6 +5,7 @@ import authService from "./appwrite/auth";
 import { login, logout } from "./features/authSlice";
 import { Footer, Header } from "./components/index";
 import { TailSpin } from "react-loader-spinner";
+import { Outlet } from "react-router-dom";
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -36,7 +37,9 @@ function App() {
       {/* Centered TODO section */}
       <div className="flex-grow flex items-center justify-center">
         <div className="text-center">
-          <div className="mb-8">TODO: {/* <Outlet /> */}</div>
+          <div className="mb-8">
+            <Outlet />
+          </div>
         </div>
       </div>
 
