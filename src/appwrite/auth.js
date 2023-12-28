@@ -1,5 +1,6 @@
 import { conf } from "../conf/conf.js";
 import { Client, Account, ID } from "appwrite";
+import { logout } from "../features/authSlice.js";
 
 export class AuthService {
   client = new Client();
@@ -27,14 +28,14 @@ export class AuthService {
         return userAccount;
       }
     } catch (error) {
-      throw error;
+      console.log("error creating account",  error);
     }
   }
   async login(email, password) {
     try {
       return await this.account.createEmailSession(email, password);
     } catch (error) {
-      throw error;
+      console.log("error logging in",  error);
     }
   }
 
@@ -42,7 +43,7 @@ export class AuthService {
     try {
       return await this.account.get();
     } catch (error) {
-      throw error;
+      console.log("error getting current user", error);
     }
 
     return null;
@@ -52,7 +53,7 @@ export class AuthService {
     try {
       return await this.account.deleteSessions();
     } catch (error) {
-      throw error;
+      console.log("logout error : ", error);
     }
   }
 }

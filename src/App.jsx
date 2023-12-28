@@ -30,7 +30,7 @@ function App() {
   return !loading ? (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
-      <div className="bg-gray-800 text-white p-4">
+      <div>
         <Header />
       </div>
 
