@@ -17,7 +17,7 @@ export class Service {
   async createPost({ title, slug, content, featuredImage, status, userId }) {
     try {
       return await this.databases.createDocument(
-        conf.appwriteDatabaseID,
+        import.meta.env.VIRE_APPWRITE_DATABASE_ID,
         appwriteCollectionID,
         slug,
         {
@@ -36,8 +36,8 @@ export class Service {
   async updatePost(slug, { title, content, featuredImage, status }) {
     try {
       return await this.databases.updateDocument(
-        conf.appwriteDatabaseID,
-        conf.appwriteCollectionID,
+        import.meta.env.VIRE_APPWRITE_DATABASE_ID,
+        import.meta.env.VIRE_APPWRITE_COLLECTION_ID,
         slug,
         {
           title,
@@ -54,8 +54,8 @@ export class Service {
   async deletePost(slug) {
     try {
       await this.databases.deleteDocument(
-        conf.appwriteDatabaseID,
-        conf.appwriteCollectionID,
+        import.meta.env.VIRE_APPWRITE_DATABASE_ID,
+        import.meta.env.VIRE_APPWRITE_COLLECTION_ID,
         slug
       );
       return true;
@@ -68,8 +68,8 @@ export class Service {
   async getPost(slug) {
     try {
       return await this.databases.getDocument(
-        conf.appwriteDatabaseID,
-        conf.appwriteCollectionID,
+        import.meta.env.VIRE_APPWRITE_DATABASE_ID,
+        import.meta.env.VIRE_APPWRITE_COLLECTION_ID,
         slug
       );
     } catch (error) {
@@ -81,8 +81,8 @@ export class Service {
   async getAllPost(query = [Query.equal("isBookCompleted", "yes")]) {
     try {
       return await this.databases.listDocuments(
-        conf.appwriteDatabaseID,
-        conf.appwriteCollectionID,
+        import.meta.env.VIRE_APPWRITE_DATABASE_ID,
+        import.meta.env.VIRE_APPWRITE_COLLECTION_ID,
         query
       );
     } catch (error) {
@@ -94,7 +94,7 @@ export class Service {
   async uploadFile(file) {
     try {
       return await this.bucket.createFile(
-        conf.appwriteBucketID,
+        import.meta.env.VIRE_APPWRITE_BUCKET_ID,
         ID.unique(),
         file
       );
