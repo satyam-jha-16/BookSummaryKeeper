@@ -1,6 +1,5 @@
 import { conf } from "../conf/conf.js";
 import { Client, Account, ID } from "appwrite";
-import { logout } from "../features/authSlice.js";
 
 export class AuthService {
   client = new Client();
@@ -8,12 +7,12 @@ export class AuthService {
 
   constructor() {
     this.client
-      .setEndpoint(import.meta.env.VITE_APPWRITE_URL)
+      .setEndpoint(conf.appwriteURL)
       .setProject(conf.appwriteProjectID);
     this.account = new Account(this.client);
   }
 
-  async createAccount(email, password, name) {
+  async createAccount({email, password, name}) {
     try {
       const userAccount = await this.account.create(
         ID.unique(),
@@ -23,7 +22,7 @@ export class AuthService {
       );
       if (userAccount) {
         //another method -- login on creation of account
-        return this.login(email, password);
+        return this.login({email, password});
       } else {
         return userAccount;
       }
@@ -31,7 +30,7 @@ export class AuthService {
       console.log("error creating account",  error);
     }
   }
-  async login(email, password) {
+  async login({email, password}) {
     try {
       return await this.account.createEmailSession(email, password);
     } catch (error) {

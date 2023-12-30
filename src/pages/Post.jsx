@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import service from "../appwrite/config";
+import appwriteService from "../appwrite/config";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button, Container } from "../components/index";
 import parse from "html-react-parser";
@@ -16,7 +16,7 @@ function Post() {
 
   useEffect(() => {
     if (slug) {
-      service.getPost(slug).then((post) => {
+      appwriteService.getPost(slug).then((post) => {
         if (post) setPost(post);
         else navigate("/");
       });

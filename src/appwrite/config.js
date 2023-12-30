@@ -1,4 +1,4 @@
-import { conf } from "../conf/conf";
+import { conf } from "../conf/conf.js";
 import { Client, ID, Databases, Storage, Query } from "appwrite";
 
 export class Service {
@@ -17,8 +17,8 @@ export class Service {
   async createPost({ title, slug, content, featuredImage, status, userId }) {
     try {
       return await this.databases.createDocument(
-        import.meta.env.VIRE_APPWRITE_DATABASE_ID,
-        appwriteCollectionID,
+        conf.appwriteDatabaseID,
+        conf.appwriteCollectionID,
         slug,
         {
           userId,
@@ -36,8 +36,8 @@ export class Service {
   async updatePost(slug, { title, content, featuredImage, status }) {
     try {
       return await this.databases.updateDocument(
-        import.meta.env.VIRE_APPWRITE_DATABASE_ID,
-        import.meta.env.VIRE_APPWRITE_COLLECTION_ID,
+        conf.appwriteDatabaseID,
+        conf.appwriteCollectionID,
         slug,
         {
           title,
@@ -54,8 +54,8 @@ export class Service {
   async deletePost(slug) {
     try {
       await this.databases.deleteDocument(
-        import.meta.env.VIRE_APPWRITE_DATABASE_ID,
-        import.meta.env.VIRE_APPWRITE_COLLECTION_ID,
+        conf.appwriteDatabaseID,
+        conf.appwriteCollectionID,
         slug
       );
       return true;
@@ -68,8 +68,8 @@ export class Service {
   async getPost(slug) {
     try {
       return await this.databases.getDocument(
-        import.meta.env.VIRE_APPWRITE_DATABASE_ID,
-        import.meta.env.VIRE_APPWRITE_COLLECTION_ID,
+        conf.appwriteDatabaseID,
+        conf.appwriteCollectionID,
         slug
       );
     } catch (error) {
@@ -78,12 +78,23 @@ export class Service {
     }
   }
 
-  async getAllPost(query = [Query.equal("isBookCompleted", "yes")]) {
+  // async getPosts(query = [Query.equal("status", "active")]) {
+  //   try {
+  //     return await this.databases.listDocuments(
+  //       conf.appwriteDatabaseID,
+  //       conf.appwriteCollectionID,
+  //       query,
+  //     );
+  //   } catch (error) {
+  //     console.log("Appwrite:: service -- couldn't get posts", error);
+  //     return false;
+  //   }
+  // }
+  async getPosts() {
     try {
       return await this.databases.listDocuments(
-        import.meta.env.VIRE_APPWRITE_DATABASE_ID,
-        import.meta.env.VIRE_APPWRITE_COLLECTION_ID,
-        query
+        conf.appwriteDatabaseID,
+        conf.appwriteCollectionID,
       );
     } catch (error) {
       console.log("Appwrite:: service -- couldn't get posts", error);
@@ -94,7 +105,7 @@ export class Service {
   async uploadFile(file) {
     try {
       return await this.bucket.createFile(
-        import.meta.env.VIRE_APPWRITE_BUCKET_ID,
+        conf.appwriteBucketID,
         ID.unique(),
         file
       );
